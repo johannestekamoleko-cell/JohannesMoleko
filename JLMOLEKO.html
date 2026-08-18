@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Johannes Moleko — Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0A0F1E;
+    --navy-mid: #111827;
+    --navy-light: #1C2538;
+    --cyan: #00D4FF;
+    --cyan-dim: rgba(0,212,255,0.12);
+    --cyan-border: rgba(0,212,255,0.25);
+    --cream: #F0EDE6;
+    --slate: #8892A4;
+    --white: #ffffff;
+    --card-bg: #141B2D;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 5%;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem; color: var(--cyan);
+    text-decoration: none; letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--slate); text-decoration: none; font-size: 0.875rem;
+    font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 5% 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; color: var(--cyan);
+    letter-spacing: 0.1em; margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 32px; height: 1px; background: var(--cyan);
+  }
+  .hero-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700; line-height: 1.05;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .hero-bracket { color: var(--cyan); }
+  .hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 400; color: var(--slate);
+    margin-bottom: 1.8rem; line-height: 1.4;
+  }
+  .hero-desc {
+    color: #9BA5B7; font-size: 0.975rem;
+    line-height: 1.8; margin-bottom: 2.5rem; max-width: 480px;
+  }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--cyan); color: var(--navy);
+    padding: 0.75rem 1.8rem; border-radius: 4px;
+    font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid var(--cyan-border); color: var(--cyan);
+    padding: 0.75rem 1.8rem; border-radius: 4px;
+    font-weight: 500; font-size: 0.9rem;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: var(--cyan-dim); transform: translateY(-2px); }
+
+  /* Terminal card */
+  .terminal {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 32px 64px rgba(0,0,0,0.5);
+  }
+  .terminal-bar {
+    background: #1E2A3A; padding: 0.75rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-red { background: #FF5F57; }
+  .dot-yellow { background: #FEBC2E; }
+  .dot-green { background: #28C840; }
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem; line-height: 1.9;
+  }
+  .t-prompt { color: var(--cyan); }
+  .t-cmd { color: var(--cream); }
+  .t-key { color: #C792EA; }
+  .t-val { color: #A3E635; }
+  .t-str { color: #FFA657; }
+  .t-comment { color: var(--slate); }
+  .cursor {
+    display: inline-block; width: 8px; height: 1.1em;
+    background: var(--cyan); vertical-align: text-bottom;
+    animation: blink 1.1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--navy-light);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 2rem 5%;
+  }
+  .stats-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem; font-weight: 700; color: var(--cyan);
+    display: block; line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem; color: var(--slate);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: 0.3rem;
+  }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; color: var(--cyan);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 48px;
+    height: 1px; background: var(--cyan-border);
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700; color: var(--white);
+    margin-bottom: 3rem; line-height: 1.15;
+  }
+
+  /* SKILLS */
+  .skills-section { background: var(--navy-mid); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px; padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: var(--cyan-border); }
+  .skill-group-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--cyan); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.18);
+    color: #B8D4E8; padding: 0.3rem 0.75rem;
+    border-radius: 4px; font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px; background: rgba(0,212,255,0.2);
+  }
+  .timeline-item {
+    padding-left: 2.5rem; margin-bottom: 3rem; position: relative;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -5px; top: 6px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--cyan); border: 2px solid var(--navy);
+  }
+  .timeline-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; color: var(--cyan);
+    letter-spacing: 0.06em; margin-bottom: 0.3rem;
+  }
+  .timeline-role {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem; font-weight: 600;
+    color: var(--white); margin-bottom: 0.15rem;
+  }
+  .timeline-company {
+    font-size: 0.9rem; color: var(--slate); margin-bottom: 1rem;
+  }
+  .timeline-list {
+    list-style: none; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .timeline-list li {
+    font-size: 0.9rem; color: #9BA5B7;
+    padding-left: 1.2rem; position: relative;
+  }
+  .timeline-list li::before {
+    content: '▸'; position: absolute; left: 0;
+    color: var(--cyan); font-size: 0.75rem; top: 0.1em;
+  }
+
+  /* PROJECTS */
+  .projects-section { background: var(--navy-mid); }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 1.75rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .project-card:hover { border-color: var(--cyan-border); transform: translateY(-4px); }
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .project-icon {
+    font-size: 1.4rem; background: var(--cyan-dim);
+    border: 1px solid var(--cyan-border);
+    width: 46px; height: 46px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .project-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--slate);
+    letter-spacing: 0.05em; text-align: right;
+  }
+  .project-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem; font-weight: 600; color: var(--white);
+  }
+  .project-desc { font-size: 0.875rem; color: #9BA5B7; line-height: 1.7; }
+  .project-impact {
+    font-size: 0.82rem; color: var(--cyan);
+    font-style: italic; padding-top: 0.25rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
+  .stack-tag {
+    background: rgba(163,230,53,0.08); border: 1px solid rgba(163,230,53,0.2);
+    color: #A3E635; padding: 0.2rem 0.6rem;
+    border-radius: 3px; font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* CONTACT */
+  .contact-section { text-align: center; }
+  .contact-card {
+    max-width: 620px; margin: 0 auto;
+    background: var(--card-bg);
+    border: 1px solid var(--cyan-border);
+    border-radius: 12px; padding: 3rem 2.5rem;
+  }
+  .contact-card p { color: #9BA5B7; margin-bottom: 2rem; line-height: 1.8; }
+  .contact-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--slate); text-decoration: none;
+    font-size: 0.875rem; font-family: 'JetBrains Mono', monospace;
+    padding: 0.6rem 1rem; border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .contact-link:hover { color: var(--cyan); border-color: var(--cyan-border); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy-light);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem 5%; text-align: center;
+    font-size: 0.8rem; color: var(--slate);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .terminal { display: none; }
+    .nav-links { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+    section { padding: 4rem 5%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">&lt;JM /&gt;</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow">Software Engineer</div>
+      <h1 class="hero-name">
+        <span class="hero-bracket">&lt;</span>Johannes<br>Moleko<span class="hero-bracket"> /&gt;</span>
+      </h1>
+      <p class="hero-title">PHP · WordPress · JavaScript</p>
+      <p class="hero-desc">
+        Building fast, scalable, and pixel-perfect web experiences. 
+        5+ years delivering full WordPress, WooCommerce, and PHP solutions — 
+        from architecture to deployment.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">~</span> <span class="t-cmd">cat developer.json</span></div>
+        <div>&nbsp;</div>
+        <div>{</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"name"</span>: <span class="t-str">"Johannes Moleko"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-str">"Software Engineer"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"experience"</span>: <span class="t-val">"5+ years"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"stack"</span>: [</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"PHP"</span>, <span class="t-str">"WordPress"</span>,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"WooCommerce"</span>, <span class="t-str">"JavaScript"</span>,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Elementor Pro"</span>, <span class="t-str">"ACF"</span></div>
+        <div>&nbsp;&nbsp;],</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"speciality"</span>: <span class="t-str">"Technical Discovery"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"sites_delivered"</span>: <span class="t-val">30</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-str">"Gauteng, ZA"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"available"</span>: <span class="t-val">true</span></div>
+        <div>}</div>
+        <div>&nbsp;</div>
+        <div><span class="t-prompt">~</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <span class="stat-num">30+</span>
+      <span class="stat-label">Production Websites</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5+</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">15+</span>
+      <span class="stat-label">Client Projects</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Problems Solved</span>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-inner">
+    <div class="section-label">What I work with</div>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Languages & Frameworks</div>
+        <div class="skill-tags">
+          <span class="tag">PHP</span>
+          <span class="tag">JavaScript ES6+</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">jQuery</span>
+          <span class="tag">Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">CMS & E-commerce</div>
+        <div class="skill-tags">
+          <span class="tag">WordPress</span>
+          <span class="tag">WooCommerce</span>
+          <span class="tag">Elementor Pro</span>
+          <span class="tag">ACF</span>
+          <span class="tag">Custom Plugin Dev</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Infrastructure & Tools</div>
+        <div class="skill-tags">
+          <span class="tag">Git</span>
+          <span class="tag">cPanel</span>
+          <span class="tag">DNS Config</span>
+          <span class="tag">Linux Hosting</span>
+          <span class="tag">Staging Pipelines</span>
+          <span class="tag">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Analytics & Optimisation</div>
+        <div class="skill-tags">
+          <span class="tag">Google Analytics GA4</span>
+          <span class="tag">Google Tag Manager</span>
+          <span class="tag">Hotjar</span>
+          <span class="tag">Core Web Vitals</span>
+          <span class="tag">Advanced Caching</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Professional</div>
+        <div class="skill-tags">
+          <span class="tag">Technical Discovery</span>
+          <span class="tag">Client Advisory</span>
+          <span class="tag">Risk Mitigation</span>
+          <span class="tag">Agile / Scrum</span>
+          <span class="tag">Project Estimation</span>
+          <span class="tag">SEO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Career history</div>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-period">Aug 2021 — Present</div>
+        <div class="timeline-role">Software Engineer</div>
+        <div class="timeline-company">AO Technology Group (Pty) Ltd</div>
+        <ul class="timeline-list">
+          <li>Full project ownership of 30+ production websites from initialization to launch</li>
+          <li>Engineered custom PHP scripts, hook filters, ACF templates, and bespoke plugin additions</li>
+          <li>Diagnosed and resolved high-risk WooCommerce transaction failures and integrated payment gateways (e.g. WalletDoc)</li>
+          <li>Led architectural discovery and risk audits on legacy stacks including Joomla, Moodle, and BigCommerce</li>
+          <li>Provisioned staging environments, managed secure backups, and enforced production code-freeze protocols</li>
+          <li>Served as technical lead in client-facing advisory sessions — translating business needs into software logic</li>
+          <li>Led technical stand-ups and mentored junior team members in the absence of senior oversight</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-period">Mar 2018 — Jan 2021</div>
+        <div class="timeline-role">Front-End Web Developer</div>
+        <div class="timeline-company">Design2Code</div>
+        <ul class="timeline-list">
+          <li>Built and maintained responsive corporate and portfolio WordPress sites for clients spanning e-commerce, healthcare, and consumer brands (incl. Adcock Ingram, Moyo Africa, Coastal Hire)</li>
+          <li>Translated Figma designs into high-performance, mobile-optimised layouts using Elementor Pro, image optimisation, and script minification</li>
+          <li>Implemented on-page SEO (metadata, semantic structure) and led cross-browser/accessibility debugging</li>
+          <li>Handled content migrations, theme initialisation, and plugin compatibility troubleshooting across multiple concurrent client projects</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-period">Feb 2013 — Jan 2016</div>
+        <div class="timeline-role">Workshop Assistant</div>
+        <div class="timeline-company">Mecosa (Pty) Ltd</div>
+        <ul class="timeline-list">
+          <li>Supported installation of industrial instrumentation hardware</li>
+          <li>Managed logistics, customer service, and project quoting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="skills-section" id="education">
+  <div class="section-inner">
+    <div class="section-label">Learning & credentials</div>
+    <h2 class="section-title">Education</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-period">2017</div>
+        <div class="timeline-role">N5 Business Management</div>
+        <div class="timeline-company">South West Gauteng College</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-period">2011</div>
+        <div class="timeline-role">National Senior Certificate (Matric)</div>
+        <div class="timeline-company">Daleview Secondary School</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references">
+  <div class="section-inner">
+    <div class="section-label">Professional network</div>
+    <h2 class="section-title">References</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-role">Paul von Zeuner</div>
+        <div class="timeline-company">Development Manager, Digital Silk</div>
+        <ul class="timeline-list">
+          <li>📱 082 387 0954</li>
+          <li>💼 linkedin.com/in/paulvonzeuner</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-role">Nathaniel Hamann</div>
+        <div class="timeline-company">Senior Fullstack WordPress Developer, iqbusiness</div>
+        <ul class="timeline-list">
+          <li>📱 072 333 0239</li>
+          <li>💼 linkedin.com/in/nathaniel-hamann46964117</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section" id="projects">
+  <div class="section-inner">
+    <div class="section-label">Selected work</div>
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🥩</div>
+          <div class="project-period">Sep – Nov 2024</div>
+        </div>
+        <div class="project-name">Table View Butchery</div>
+        <div class="project-desc">Full e-commerce transformation — rebuilt the storefront from scratch. Engineered custom conditional hooks in functions.php to alter checkout behaviour and shipping during public holidays. Hunted down unoptimised legacy scripts (Jetpack, Meta Pixel) to slash page weight.</div>
+        <div class="project-impact">→ Faster, cleaner, conversion-optimised storefront. Sole ongoing site guardian.</div>
+        <div class="project-stack">
+          <span class="stack-tag">WordPress</span>
+          <span class="stack-tag">WooCommerce</span>
+          <span class="stack-tag">Custom PHP</span>
+          <span class="stack-tag">Elementor</span>
+          <span class="stack-tag">.htaccess</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🌿</div>
+          <div class="project-period">2024</div>
+        </div>
+        <div class="project-name">Agripedia — Technical Risk Discovery</div>
+        <div class="project-desc">Parachuted into an unfamiliar stack with zero prior experience and executed a full infrastructure audit under tight deadlines. Identified severe version drift, undocumented core-code hacks, and unsafe live-production habits. Produced an architectural roadmap for Git integration, database sanitisation, and Docker containerisation.</div>
+        <div class="project-impact">→ Gave management a clear execution strategy to protect business continuity.</div>
+        <div class="project-stack">
+          <span class="stack-tag">Joomla</span>
+          <span class="stack-tag">Moodle LMS</span>
+          <span class="stack-tag">Linux Hosting</span>
+          <span class="stack-tag">Database Analysis</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🏡</div>
+          <div class="project-period">2024</div>
+        </div>
+        <div class="project-name">Cedar Lakes</div>
+        <div class="project-desc">End-to-end deployment from inception to close-out. Led 16-hour maintenance windows covering theme upgrades, environment syncing, and plugin-conflict resolution. Served as the primary technical advisory voice to client stakeholders throughout.</div>
+        <div class="project-impact">→ Delivered a stable, fully deployed digital presence on time.</div>
+        <div class="project-stack">
+          <span class="stack-tag">WordPress</span>
+          <span class="stack-tag">ACF</span>
+          <span class="stack-tag">PHP</span>
+          <span class="stack-tag">Staging Pipelines</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">✅</div>
+          <div class="project-period">May – Sep 2024</div>
+        </div>
+        <div class="project-name">Checkhie</div>
+        <div class="project-desc">Designed and developed the complete front-end from scratch. Built a fast, accessible, mobile-first UI with custom WordPress functionality and fully optimised assets.</div>
+        <div class="project-impact">→ Higher engagement, faster load times, better cross-device compatibility.</div>
+        <div class="project-stack">
+          <span class="stack-tag">WordPress</span>
+          <span class="stack-tag">PHP</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">Elementor Pro</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🎨</div>
+          <div class="project-period">2024</div>
+        </div>
+        <div class="project-name">Send Me Some & AMT Turbo</div>
+        <div class="project-desc">Translated strict Figma designs into high-performance, pixel-perfect responsive layouts. Applied strategic image optimisation, script scheduling, and minification rules for rapid mobile viewport performance.</div>
+        <div class="project-impact">→ Figma-accurate builds with excellent mobile performance scores.</div>
+        <div class="project-stack">
+          <span class="stack-tag">WordPress</span>
+          <span class="stack-tag">Elementor Pro</span>
+          <span class="stack-tag">CSS3</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">Page-Speed Opt.</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">💊</div>
+          <div class="project-period">Aug – Nov 2021</div>
+        </div>
+        <div class="project-name">Adcock Ingram</div>
+        <div class="project-desc">Developed a dedicated WordPress promotions page with dynamic discount management technology. Integrated and maintained Hotjar analytics for user behaviour tracking and UX insights.</div>
+        <div class="project-stack">
+          <span class="stack-tag">WordPress</span>
+          <span class="stack-tag">Hotjar</span>
+          <span class="stack-tag">Promotions Tech</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🌍</div>
+          <div class="project-period">Aug – Sep 2021</div>
+        </div>
+        <div class="project-name">Moyo Africa</div>
+        <div class="project-desc">Back-end development using PHP to build dynamic pages. Integrated Advanced Custom Fields (ACF) for flexible, scalable content management.</div>
+        <div class="project-stack">
+          <span class="stack-tag">PHP</span>
+          <span class="stack-tag">WordPress</span>
+          <span class="stack-tag">ACF</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">📧</div>
+          <div class="project-period">Nov 2021 – Dec 2023</div>
+        </div>
+        <div class="project-name">Coastal Hire — Email Marketing</div>
+        <div class="project-desc">Designed and coded professional HTML/CSS email marketing campaigns. Managed full campaign delivery including list targeting and dispatch.</div>
+        <div class="project-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">CSS</span>
+          <span class="stack-tag">Email Platforms</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <div class="section-label" style="justify-content: center;">Let's work together</div>
+    <h2 class="section-title" style="text-align:center;">Get In Touch</h2>
+    <div class="contact-card">
+      <p>I'm currently open to new opportunities — whether it's a full-time role where I can grow, or freelance projects. If you're building something great, let's talk.</p>
+      <div class="contact-links">
+        <a href="mailto:johannestekamoleko@gmail.com" class="contact-link">
+          📧 johannestekamoleko@gmail.com
+        </a>
+        <a href="tel:0793724166" class="contact-link">
+          📱 079 372 4166
+        </a>
+        <a href="https://www.linkedin.com/in/johannes-moleko/" target="_blank" class="contact-link">
+          💼 LinkedIn Profile
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &lt;built with purpose by Johannes Moleko /&gt; · Gauteng, South Africa
+</footer>
+
+</body>
+</html>
